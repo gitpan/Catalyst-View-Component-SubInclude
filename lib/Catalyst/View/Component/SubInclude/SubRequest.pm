@@ -11,11 +11,11 @@ Catalyst::View::Component::SubInclude::SubRequest - Sub-requests plugin for C::V
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -55,13 +55,17 @@ It requires L<Catalyst::Plugin::SubRequest>.
 
 =head2 C<generate_subinclude( $c, $path, @args )>
 
-This will translate to the following sub-request call:
+This will make a sub-request call to the action specified by C<$path>. Note that
+C<$path> should be the private action path - translation to the public path is
+handled internally.
 
-  $c->sub_request( $path, {}, @args );
+So, after path translation, the call will be (roughly) equivalent to:
+
+  $c->sub_request( $translated_path, {}, @args );
 
 Notice that the stash will always be empty. This behavior could be configurable
 in the future through an additional switch - for now, this behavior guarantees a
-common interface for plugins.
+common interface for all plugins.
 
 =cut
 
@@ -72,7 +76,14 @@ sub generate_subinclude {
     croak "subincludes through subrequests require Catalyst::Plugin::SubRequest"
         unless $c->can('sub_request');
 
-    $c->sub_request( $path, $stash, @params );
+    my $args = ref $params[0] eq 'ARRAY' ? shift @params : [];
+    
+    my $dispatcher = $c->dispatcher;
+    my ($action) = $dispatcher->_invoke_as_path( $c, $path, $args );
+
+    my $uri = $c->uri_for( $action, $args, @params );
+
+    $c->sub_request( $uri->path, $stash, @params );
 }
 
 =head1 SEE ALSO

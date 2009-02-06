@@ -8,11 +8,11 @@ Catalyst::View::Component::SubInclude::ESI - Edge Side Includes (ESI) plugin for
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -39,11 +39,13 @@ uses of includes.
 
 =head1 CLASS METHODS
 
-=head2 C<generate_subinclude( $c, @args )>
+=head2 C<generate_subinclude( $c, $path, @args )>
 
-This will roughly translate to the following code:
+Note that C<$path> should be the private action path - translation to the public
+path is handled internally. After translation, this will roughly translate to 
+the following code:
 
-  my $url = $c->uri_for( @args );
+  my $url = $c->uri_for( $translated_path, @args )->path_query;
   return '<!--esi <esi:include src="$url" /> -->';
 
 Notice that the stash will always be empty. This behavior could be configurable
@@ -53,10 +55,16 @@ common interface for plugins.
 =cut
 
 sub generate_subinclude {
-    my $class = shift;
-    my $c     = shift;
-    my $url = $c->uri_for( @_ );
-    return '<!--esi <esi:include src="' . $url->path . '" /> -->';
+    my ($class, $c, $path, @params) = @_;
+
+    my $args = ref $params[0] eq 'ARRAY' ? shift @params : [];
+    
+    my $dispatcher = $c->dispatcher;
+    my ($action) = $dispatcher->_invoke_as_path( $c, $path, $args );
+
+    my $uri = $c->uri_for( $action, $args, @params );
+
+    return '<!--esi <esi:include src="' . $uri->path_query . '" /> -->';
 }
 
 =head1 SEE ALSO
