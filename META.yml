@@ -2,8 +2,12 @@
 abstract: 'Use subincludes in your Catalyst views'
 author:
   - 'Nilson Santos Figueiredo Junior, C<< <nilsonsfj at cpan.org> >>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.79'
+generated_by: 'Module::Install version 0.91'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -23,4 +27,4 @@ requires:
   namespace::clean: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.06
+version: 0.07
