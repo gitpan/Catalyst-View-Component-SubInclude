@@ -1,9 +1,8 @@
 package Catalyst::View::Component::SubInclude::SubRequest;
-use warnings;
-use strict;
-
+use Moose;
 use Carp qw/croak/;
-use namespace::clean qw/croak/;
+use MooseX::Types::Moose qw/ Bool /;
+use namespace::clean -except => 'meta';
 
 =head1 NAME
 
@@ -69,20 +68,26 @@ common interface for all plugins.
 
 =cut
 
+has keep_stash => (
+    isa => Bool,
+    is => 'ro',
+    default => 0,
+);
+
 sub generate_subinclude {
-    my ($class, $c, $path, @params) = @_;
-    my $stash = {};
+    my ($self, $c, $path, @params) = @_;
+    my $stash = $self->keep_stash ? { %{ $c->stash } } : {};
 
     croak "subincludes through subrequests require Catalyst::Plugin::SubRequest"
         unless $c->can('sub_request');
 
-    my $args  = ref $params[0]  eq 'ARRAY' ? shift @params : [];
-    my $query = ref $params[-1] eq 'HASH'  ?   pop @params : {};
+    my $query = ref $params[-1] eq 'HASH' ? pop @params : {};
     
-    my $dispatcher = $c->dispatcher;
-    my ($action) = $dispatcher->_invoke_as_path( $c, $path, $args );
+    my $action = blessed($path)
+          ? $path
+          : $c->dispatcher->get_action_by_path($path);
 
-    my $uri = $c->uri_for( $action, $args, @params );
+    my $uri = $c->uri_for( $action, @params );
 
     $c->sub_request( $uri->path, $stash, $query );
 }
@@ -111,4 +116,5 @@ under the same terms as Perl itself.
 
 =cut
 
+__PACKAGE__->meta->make_immutable;
 1;

@@ -1,6 +1,6 @@
 package Catalyst::View::Component::SubInclude::ESI;
-use warnings;
-use strict;
+use Moose;
+use namespace::clean -except => 'meta';
 
 =head1 NAME
 
@@ -55,14 +55,9 @@ common interface for plugins.
 =cut
 
 sub generate_subinclude {
-    my ($class, $c, $path, @params) = @_;
+    my ($self, $c, $path, @params) = @_;
 
-    my $args = ref $params[0] eq 'ARRAY' ? shift @params : [];
-    
-    my $dispatcher = $c->dispatcher;
-    my ($action) = $dispatcher->_invoke_as_path( $c, $path, $args );
-
-    my $uri = $c->uri_for( $action, $args, @params );
+    my $uri = $c->uri_for_action( $path, @params );
 
     return '<!--esi <esi:include src="' . $uri->path_query . '" /> -->';
 }
@@ -92,4 +87,5 @@ under the same terms as Perl itself.
 
 =cut
 
+__PACKAGE__->meta->make_immutable;
 1;

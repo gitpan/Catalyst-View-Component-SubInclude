@@ -1,9 +1,8 @@
 package Catalyst::View::Component::SubInclude::Visit;
-use warnings;
-use strict;
-
+use Moose;
 use Carp qw/croak/;
-use namespace::clean qw/croak/;
+use MooseX::Types::Moose qw/ Bool /;
+use namespace::clean -except => 'meta';
 
 =head1 NAME
 
@@ -58,14 +57,20 @@ with the other plugins.
 
 =cut
 
+has keep_stash => (
+    isa => Bool,
+    is => 'ro',
+    default => 0,
+);
+
 sub generate_subinclude {
-    my ($class, $c, $path, @params) = @_;
+    my ($self, $c, $path, @params) = @_;
 
     croak "subincludes through visit() require Catalyst version 5.71000 or newer"
         unless $c->can('visit');
 
     {
-        local $c->{stash} = {};
+        local $c->{stash} = $self->keep_stash ? $c->{stash} : {};
         
         local $c->request->{parameters} = 
             ref $params[-1] eq 'HASH' ? pop @params : {};
@@ -73,7 +78,7 @@ sub generate_subinclude {
         local $c->response->{body};
 
         my $captures = ref $params[0] eq 'ARRAY' ? shift @params : [];
-        $c->visit( $path, \@params, $captures );
+        $c->visit( $path, $captures, \@params );
 
         return $c->response->{body};
     }
@@ -104,4 +109,5 @@ under the same terms as Perl itself.
 
 =cut
 
+__PACKAGE__->meta->make_immutable;
 1;

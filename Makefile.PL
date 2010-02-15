@@ -1,19 +1,30 @@
-# IMPORTANT: if you delete this file your app will not work as
-# expected.  you have been warned
-use inc::Module::Install;
+use strict;
+use warnings;
+use inc::Module::Install 0.91;
+use Module::Install::AuthorRequires;
+use Module::Install::AuthorTests;
 
 name 'Catalyst-View-Component-SubInclude';
 all_from 'lib/Catalyst/View/Component/SubInclude.pm';
 
-requires 'Catalyst::Runtime' => '5.70000';
+requires 'Catalyst::Runtime' => '5.80014';
 requires 'Catalyst::Plugin::SubRequest';
 requires 'Moose';
 requires 'Moose::Role';
+requires 'MooseX::Types';
 requires 'Carp';
 requires 'namespace::clean';
-requires 'Task::Weaken';
+
+test_requires 'Test::More' => '0.88';
+test_requires 'Catalyst::View::TT';
+
+author_requires 'Test::Pod::Coverage' => '1.04';
+author_requires 'Test::Pod' => '1.14';
+author_tests 't/author';
 
 catalyst;
+
+resources repository => 'git://git.shadowcat.co.uk/catagits/Catalyst-View-Component-SubInclude';
 
 auto_install;
 WriteAll;
