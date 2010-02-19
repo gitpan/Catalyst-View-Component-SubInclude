@@ -3,6 +3,7 @@ abstract: 'Use subincludes in your Catalyst views'
 author:
   - 'Nilson Santos Figueiredo Junior, C<< <nilsonsfj at cpan.org> >>'
 build_requires:
+  Catalyst::Action::RenderView: 0
   Catalyst::View::TT: 0
   ExtUtils::MakeMaker: 6.42
   Test::More: 0.88
@@ -30,4 +31,4 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: git://git.shadowcat.co.uk/catagits/Catalyst-View-Component-SubInclude
-version: 0.07_01
+version: 0.07_02
