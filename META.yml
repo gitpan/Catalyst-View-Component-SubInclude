@@ -10,7 +10,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.910'
+generated_by: 'Module::Install version 0.97'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -22,13 +22,16 @@ no_index:
     - t
 requires:
   Carp: 0
+  Catalyst::Action::RenderView: 0
   Catalyst::Plugin::SubRequest: 0
   Catalyst::Runtime: 5.80014
+  Catalyst::View::TT: 0
   Moose: 0
   Moose::Role: 0
   MooseX::Types: 0
+  Test::More: 0.88
   namespace::clean: 0
 resources:
   license: http://dev.perl.org/licenses/
   repository: git://git.shadowcat.co.uk/catagits/Catalyst-View-Component-SubInclude
-version: 0.07_03
+version: 0.08
