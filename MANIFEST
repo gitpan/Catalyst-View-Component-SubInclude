@@ -15,6 +15,7 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Catalyst/View/Component/SubInclude.pm
 lib/Catalyst/View/Component/SubInclude/ESI.pm
+lib/Catalyst/View/Component/SubInclude/SSI.pm
 lib/Catalyst/View/Component/SubInclude/SubRequest.pm
 lib/Catalyst/View/Component/SubInclude/Visit.pm
 Makefile.PL
