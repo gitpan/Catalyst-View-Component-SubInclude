@@ -15,6 +15,7 @@ inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 lib/Catalyst/View/Component/SubInclude.pm
 lib/Catalyst/View/Component/SubInclude/ESI.pm
+lib/Catalyst/View/Component/SubInclude/HTTP.pm
 lib/Catalyst/View/Component/SubInclude/SSI.pm
 lib/Catalyst/View/Component/SubInclude/SubRequest.pm
 lib/Catalyst/View/Component/SubInclude/Visit.pm
@@ -23,11 +24,15 @@ MANIFEST			This list of files
 META.yml
 README
 t/00-load.t
+t/01-app.t
 t/app.t
+t/author/http.t
 t/author/pod-coverage.t
 t/author/pod.t
 t/lib/ESITest.pm
 t/lib/ESITest/Controller/Root.pm
+t/lib/ESITest/root/http_cpan.tt
+t/lib/ESITest/root/http_github.tt
 t/lib/ESITest/root/index.tt
 t/lib/ESITest/root/time_include.tt
 t/lib/ESITest/View/TT.pm

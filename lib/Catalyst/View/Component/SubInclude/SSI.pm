@@ -8,11 +8,11 @@ Catalyst::View::Component::SubInclude::SSI - Server Side Includes (SSI) plugin f
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 $VERSION = eval $VERSION;
 
 =head1 SYNOPSIS
@@ -38,7 +38,7 @@ Server Side Includes (SSI) include directives. This is a feature implemented by
 Apache (L<http://httpd.apache.org/>), nginx (L<http://wiki.nginx.org/Main>)
 and many other web servers which allows cache-efficient uses of includes.
 
-=head1 CLASS METHODS
+=head1 METHODS
 
 =head2 C<generate_subinclude( $c, $path, @args )>
 
